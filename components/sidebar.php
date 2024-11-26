@@ -95,4 +95,18 @@ global $currentPage;
             </li>
         </ul>
     </div>
+    <div class="sidebar-footer">
+        <a href="../pages/auth/connexion.php" class="menu-link">
+            <i class="icon icon-settings"></i>
+            Connexion
+        </a>
+        <a href="../pages/auth/inscription.php" class="menu-link">
+            <i class="icon icon-settings"></i>
+            Inscription
+        </a>
+        <a href="../pages/error/404.php" class="menu-link">
+            <i class="icon icon-settings"></i>
+            Paramètres
+        </a>
+    </div>
 </div>

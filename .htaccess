@@ -1,0 +1,9 @@
+# Active le moteur de réécriture d'URL
+RewriteEngine On
+
+# Redirige tout sauf les fichiers ou dossiers existants vers /public/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /public/$1 [L]
+
+ErrorDocument 404 /pages/error/404.php

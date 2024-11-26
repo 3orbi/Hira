@@ -1,0 +1,65 @@
+/* Styles globaux pour la page de connexion */
+body {
+    background-color: #1a1a1a; /* Fond sombre */
+    color: white; /* Texte blanc */
+    height: 100vh; /* Hauteur complète */
+    display: flex; /* Flexbox pour centrer */
+    align-items: center; /* Alignement vertical */
+    justify-content: center; /* Alignement horizontal */
+    margin: 0;
+}
+
+/* Conteneur principal de la connexion */
+.login-container {
+    background-color: #242424; /* Couleur de fond sombre pour la carte */
+    padding: 2rem; /* Espacement intérieur */
+    border-radius: 8px; /* Coins arrondis */
+    width: 100%;
+    max-width: 400px; /* Largeur maximale */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Ombre */
+}
+
+/* Champs du formulaire */
+.form-control {
+    background-color: #333; /* Fond sombre */
+    border: none; /* Pas de bordure */
+    color: white; /* Texte blanc */
+    padding: 0.8rem; /* Espacement intérieur */
+}
+
+.form-control:focus {
+    background-color: #333; /* Conserve le fond sombre */
+    color: white; /* Conserve le texte blanc */
+    box-shadow: none; /* Pas d'ombre */
+    border-color: #28a745; /* Bordure verte au focus */
+}
+
+/* Bouton de connexion */
+.btn-success {
+    background-color: #28a745; /* Vert principal */
+    width: 100%; /* Largeur complète */
+    padding: 0.8rem; /* Espacement intérieur */
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #218838; /* Vert plus foncé au survol */
+}
+
+/* Lien de création de compte */
+.create-account {
+    color: #28a745; /* Couleur verte */
+    text-decoration: none; /* Pas de soulignement */
+}
+
+.create-account:hover {
+    color: #218838; /* Vert plus foncé au survol */
+}
+
+/* Message d'erreur */
+.error-message {
+    color: #dc3545; /* Rouge pour les erreurs */
+    font-size: 14px;
+    margin-bottom: 15px; /* Espacement sous le message */
+    text-align: center; /* Centrer le texte */
+}
