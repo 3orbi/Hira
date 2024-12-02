@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['user'] = $email;
 
             // Rediriger vers la page d'accueil
-            header('Location: /');
+            header('Location: /connexion');
             exit;
         }
     }
