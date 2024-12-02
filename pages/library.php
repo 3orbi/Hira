@@ -12,18 +12,7 @@ if (!isset($_SESSION['user'])) {
 }
 
 // Connexion à la base de données
-$localhost = 'localhost';
-$dbname = 'hira_bdd';
-$user = 'root';
-$passwordDb = 'root';
-
-try {
-    $pdo = new PDO("mysql:host=$localhost;dbname=$dbname", $user, $passwordDb);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    echo 'Erreur de connexion : ' . $e->getMessage();
-    exit;
-}
+require 'components/database.php';
 
 // Récupérer les artistes
 $artistes = $pdo->query('SELECT * FROM artistes ORDER BY nom ASC')->fetchAll();
@@ -57,7 +46,7 @@ $chansons = $pdo->query('
     <ul class="list-group">
         <?php foreach ($artistes as $artiste): ?>
             <li class="list-group-item">
-                <a href="/artist.php?id=<?php echo $artiste['id']; ?>">
+                <a href="/artist?id=<?php echo $artiste['id']; ?>">
                     <?php echo htmlspecialchars($artiste['nom']); ?>
                 </a>
             </li>
