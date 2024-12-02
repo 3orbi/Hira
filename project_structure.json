@@ -1,0 +1,173 @@
+{
+    ".": {
+        "dirs": [
+            "components",
+            "lib",
+            "pages",
+            "public",
+            "utils"
+        ],
+        "files": {
+            ".htaccess": {
+                "size": 348,
+                "content": "# Active le moteur de réécriture d'URL\nRewriteEngine On\n\n# Redirige tout sauf les fichiers ou dossiers existants vers index.php\nRewriteCond %{REQUEST_FILENAME} !-f\nRewriteCond %{REQUEST_FILENAME} !-d\nRewriteRule ^(.*)$ /index.php [L]\n\n# Gestion des erreurs\nErrorDocument 404 /pages/error/404.php\nErrorDocument 500 /pages/error/500.php\n"
+            },
+            "index.php": {
+                "size": 955,
+                "content": "<?php\n// Détection de la route\n$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);\n$route = trim($uri, '/');\n\n// Liste des routes disponibles\n$routes = [\n    '' => 'pages/index.php',\n    'library' => 'pages/library.php',\n    'search' => 'pages/search.php',\n    'error/404' => 'pages/error/404.php',\n    'error/500' => 'pages/error/500.php',\n\n    'playlists' => 'pages/playlists/playlists.php',\n    'playlist' => 'pages/playlists/playlist.php',\n    'playlist_add' => 'pages/playlists/playlist_add.php',\n    'song_add' => 'pages/song_add.php',\n\n    'connexion' => 'pages/auth/connexion.php',\n    'deconnexion' => 'pages/auth/deconnexion.php',\n    \"inscription\" => 'pages/auth/inscription.php',\n\n\n    'user/dashboard' => 'pages/user/dashboard.php',\n];\n\n// Charge la route ou affiche une erreur 404\nif (array_key_exists($route, $routes)) {\n    include $routes[$route];\n} else {\n    include 'pages/error/404.php';\n}\n?>\n\n"
+            }
+        }
+    },
+    "components": {
+        "dirs": [],
+        "files": {
+            "layout.php": {
+                "size": 801,
+                "content": "<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title><?php echo $title ?? 'Hira'; ?></title>\n    <link rel=\"stylesheet\" href=\"/public/css/global.css\">\n    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\n    <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css\">\n</head>\n<body>\n    <div class=\"d-flex\">\n        <?php include 'components/sidebar.php'; ?>\n        <main class=\"flex-grow-1\">\n            <?php echo $content ?? ''; ?>\n        </main>\n    </div>\n    <?php include 'components/player.php'; ?>\n    <script src=\"/public/js/player.js\"></script>\n</body>\n</html>\n"
+            },
+            "player.php": {
+                "size": 927,
+                "content": "<div id=\"music-player\" class=\"music-player bg-dark text-white d-flex align-items-center px-3\">\n    <div class=\"player-info d-flex align-items-center me-auto\">\n        <img src=\"/public/images/placeholder.svg\" alt=\"Album Cover\" class=\"album-cover me-3\" width=\"50\" height=\"50\">\n        <div>\n            <div id=\"track-title\">Titre de la chanson</div>\n            <div id=\"artist-name\" class=\"text-muted\">Artiste</div>\n        </div>\n    </div>\n    <div class=\"player-controls d-flex align-items-center\">\n        <button id=\"prev-btn\" class=\"btn btn-light me-2\"><i class=\"bi bi-skip-backward-fill\"></i></button>\n        <button id=\"play-pause-btn\" class=\"btn btn-light me-2\"><i id=\"play-icon\" class=\"bi bi-play-fill\"></i></button>\n        <button id=\"next-btn\" class=\"btn btn-light\"><i class=\"bi bi-skip-forward-fill\"></i></button>\n    </div>\n    <audio id=\"audio-player\" src=\"\" preload=\"metadata\"></audio>\n</div>\n"
+            },
+            "sidebar.php": {
+                "size": 1316,
+                "content": "<?php\n    session_start();\n\n?>\n\n<div class=\"sidebar bg-dark text-white p-3\">\n    <h3>Hira</h3>\n    <ul class=\"nav flex-column\">\n    <li class=\"nav-item\">\n        <a class=\"nav-link text-white\" href=\"/\">Accueil</a>\n    </li>\n    <?php\n        if ( isset($_SESSION['user'])){\n            echo '\n<li class=\"nav-item\">\n        <a class=\"nav-link text-white\" href=\"/library\">Bibliothèque</a>\n    </li>\n            ';\n        }\n    ?>\n    \n    <li class=\"nav-item\">\n        <a class=\"nav-link text-white\" href=\"/search\">Recherche</a>\n    </li>\n    <?php\n        if (isset($_SESSION['user'])) {\n            echo '\n                <li class=\"nav-item\">\n        <a class=\"nav-link text-white\" href=\"/user/dashboard\">\n            Dashboard\n        </a>\n    </li>\n    <li class=\"nav-item\">\n        <a class=\"nav-link text-white\" href=\"/deconnexion\">\n            Deconnexion\n        </a>\n    </li>\n            ';\n        } else {\n            echo '\n                <li class=\"nav-item\">\n        <a class=\"nav-link text-white\" href=\"/inscription\">\n            Inscription\n        </a>\n    </li>\n    <li class=\"nav-item\">\n        <a class=\"nav-link text-white\" href=\"/connexion\">\n            Connexion\n        </a>\n    </li>\n            ';\n        }\n    ?>\n</ul>\n\n\n</div>\n"
+            }
+        }
+    },
+    "lib": {
+        "dirs": [],
+        "files": {
+            "playlist.php": {
+                "size": 495,
+                "content": "<?php\n$playlists = [\n    [\n        'id' => 1,\n        'title' => 'Mes Hits Favoris',\n        'songs' => [\n            ['title' => 'Chanson 1', 'artist' => 'Artiste 1'],\n            ['title' => 'Chanson 2', 'artist' => 'Artiste 2'],\n        ],\n    ],\n    [\n        'id' => 2,\n        'title' => 'Relaxation',\n        'songs' => [\n            ['title' => 'Chanson 3', 'artist' => 'Artiste 3'],\n            ['title' => 'Chanson 4', 'artist' => 'Artiste 4'],\n        ],\n    ],\n];\n"
+            }
+        }
+    },
+    "pages": {
+        "dirs": [
+            "admin",
+            "auth",
+            "error",
+            "playlists",
+            "user"
+        ],
+        "files": {
+            "index.php": {
+                "size": 1360,
+                "content": "<?php\n$title = 'Accueil';\nob_start();\n?>\n<div class=\"container mt-5\">\n    <h1>Bienvenue sur Hira</h1>\n    <p>Votre musique, où que vous soyez.</p>\n\n    <div class=\"row mt-4\">\n        <div class=\"col-md-6\">\n            <div class=\"card bg-dark text-white\">\n                <img src=\"/public/images/placeholder.svg\" class=\"card-img-top\" alt=\"Playlist 1\">\n                <div class=\"card-body\">\n                    <h5 class=\"card-title\">Playlists Populaires</h5>\n                    <p class=\"card-text\">Explorez les meilleures playlists sélectionnées pour vous.</p>\n                    <a href=\"/library.php\" class=\"btn btn-light\">Explorer</a>\n                </div>\n            </div>\n        </div>\n        <div class=\"col-md-6\">\n            <div class=\"card bg-dark text-white\">\n                <img src=\"/public/images/placeholder.svg\" class=\"card-img-top\" alt=\"Recommandation\">\n                <div class=\"card-body\">\n                    <h5 class=\"card-title\">Recommandé pour Vous</h5>\n                    <p class=\"card-text\">Découvrez des albums et artistes en fonction de vos goûts.</p>\n                    <a href=\"/library.php\" class=\"btn btn-light\">Voir Plus</a>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n<?php\n$content = ob_get_clean();\ninclude 'components/layout.php';\n?>\n"
+            },
+            "library.php": {
+                "size": 327,
+                "content": "<?php\n$title = 'Bibliothèque';\nob_start();\n?>\n<div class=\"container mt-5\">\n    <h1>Votre Bibliothèque</h1>\n    <p>Accédez à vos musiques, playlists et artistes favoris.</p>\n    <p>En cours de travaiil</p>\n</div>\n<?php\n$content = ob_get_clean();\ninclude $_SERVER['DOCUMENT_ROOT'] . '/components/layout.php';\n?>\n"
+            },
+            "search.php": {
+                "size": 455,
+                "content": "<?php\n$title = 'Recherche';\nob_start();\n?>\n<header class=\"header black\" --bs-primary>\n    <div class=\"container\">\n        <h1>Recherche</h1>\n        <p>Trouvez vos musiques et artistes préférés.</p>\n    </div>\n</header>\n<div class=\"container mt-5\">\n    <h1>Recherche</h1>\n    <p>Trouvez vos musiques et artistes préférés.</p>\n</div>\n<?php\n$content = ob_get_clean();\ninclude $_SERVER['DOCUMENT_ROOT'] . '/components/layout.php';\n?>\n"
+            },
+            "song_add.php": {
+                "size": 566,
+                "content": "<?php\nsession_start();\nif ($_SERVER['REQUEST_METHOD'] === 'POST') {\n    $playlistId = (int) $_POST['playlist_id'];\n    $title = trim($_POST['title']);\n    $artist = trim($_POST['artist']);\n\n    if (!empty($title) && !empty($artist)) {\n        foreach ($_SESSION['playlists'] as &$playlist) {\n            if ($playlist['id'] === $playlistId) {\n                $playlist['songs'][] = ['title' => $title, 'artist' => $artist];\n                break;\n            }\n        }\n    }\n}\nheader('Location: /pages/playlist.php?id=' . $playlistId);\nexit;\n?>\n"
+            }
+        }
+    },
+    "pages\\admin": {
+        "dirs": [],
+        "files": {
+            "dashboard.php": {
+                "size": 0,
+                "content": ""
+            }
+        }
+    },
+    "pages\\auth": {
+        "dirs": [],
+        "files": {
+            "connexion.php": {
+                "size": 2100,
+                "content": "<?php\nsession_start();\n\n// Redirection si l'utilisateur est déjà connecté\nif (isset($_SESSION['user'])) {\n    header('Location: /');\n    exit;\n}\n\n$error = '';\nif ($_SERVER['REQUEST_METHOD'] === 'POST') {\n    $email = trim($_POST['email']);\n    $password = trim($_POST['password']);\n\n    // Simuler une validation (à remplacer par une validation réelle plus tard)\n    $fakeUser = [\n        'email' => 'test@hira.com',\n        'password' => 'password123', // Plaintext ici, à hasher dans une vraie app\n    ];\n\n    if ($email === $fakeUser['email'] && $password === $fakeUser['password']) {\n        $_SESSION['user'] = $fakeUser['email'];\n        header('Location: /');\n        exit;\n    } else {\n        $error = 'Email ou mot de passe incorrect.';\n    }\n}\n?>\n\n<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Connexion</title>\n    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\n</head>\n<body class=\"d-flex justify-content-center align-items-center vh-100 bg-light\">\n    <form method=\"POST\" class=\"p-4 bg-white shadow-sm rounded\">\n        <h2 class=\"text-center mb-4\">Connexion</h2>\n        <?php if ($error): ?>\n            <div class=\"alert alert-danger\">\n                <?php echo htmlspecialchars($error); ?>\n            </div>\n        <?php endif; ?>\n        <div class=\"mb-3\">\n            <label for=\"email\" class=\"form-label\">Email</label>\n            <input type=\"email\" id=\"email\" name=\"email\" class=\"form-control\" required>\n        </div>\n        <div class=\"mb-3\">\n            <label for=\"password\" class=\"form-label\">Mot de passe</label>\n            <input type=\"password\" id=\"password\" name=\"password\" class=\"form-control\" required>\n        </div>\n        <button type=\"submit\" class=\"btn btn-primary w-100\">Se connecter</button>\n        <p class=\"mt-3 text-center\">Pas encore inscrit ? <a href=\"/inscription\">Créer un compte</a></p>\n    </form>\n</body>\n</html>\n"
+            },
+            "deconnexion.php": {
+                "size": 80,
+                "content": "<?php\nsession_start();\nsession_destroy();\nheader('Location: /');\nexit;\n?>\n"
+            },
+            "inscription.php": {
+                "size": 3336,
+                "content": "<?php\nsession_start();\n\n// Connexion à la base de données\n$localhost = 'localhost';\n$dbname = 'hira_bdd';\n$user = 'root';\n$password = 'root';\n\ntry {\n    $pdo = new PDO(\"mysql:host=$localhost;dbname=$dbname\", $user, $password);\n    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);\n} catch (PDOException $e) {\n    echo 'Erreur de connexion : ' . $e->getMessage();\n    exit;\n}\n\n$error = '';\nif ($_SERVER['REQUEST_METHOD'] === 'POST') {\n    $email = trim($_POST['email']);\n    $password = trim($_POST['password']);\n    $confirmPassword = trim($_POST['confirm_password']);\n\n    if ($password !== $confirmPassword) {\n        $error = 'Les mots de passe ne correspondent pas.';\n    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {\n        $error = 'Email invalide.';\n    } else {\n        // Vérifier si l'email existe déjà\n        $stmt = $pdo->prepare('SELECT COUNT(*) FROM utilisateurs WHERE email = :email');\n        $stmt->execute(['email' => $email]);\n        if ($stmt->fetchColumn() > 0) {\n            $error = 'Cet email est déjà utilisé.';\n        } else {\n            // Hacher le mot de passe\n            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);\n\n            // Insérer l'utilisateur dans la base de données\n            $stmt = $pdo->prepare('INSERT INTO utilisateurs (email, mot_de_passe) VALUES (:email, :mot_de_passe)');\n            $stmt->execute([\n                'email' => $email,\n                'mot_de_passe' => $hashedPassword\n            ]);\n\n            // Démarrer une session utilisateur\n            $_SESSION['user'] = $email;\n\n            // Rediriger vers la page d'accueil\n            header('Location: /');\n            exit;\n        }\n    }\n}\n?>\n\n\n<!DOCTYPE html>\n<html lang=\"fr\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Inscription</title>\n    <link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\n</head>\n<body class=\"d-flex justify-content-center align-items-center vh-100 bg-light\">\n    <form method=\"POST\" class=\"p-4 bg-white shadow-sm rounded\">\n        <h2 class=\"text-center mb-4\">Inscription</h2>\n        <?php if ($error): ?>\n            <div class=\"alert alert-danger\">\n                <?php echo htmlspecialchars($error); ?>\n            </div>\n        <?php endif; ?>\n        <div class=\"mb-3\">\n            <label for=\"email\" class=\"form-label\">Email</label>\n            <input type=\"email\" id=\"email\" name=\"email\" class=\"form-control\" required>\n        </div>\n        <div class=\"mb-3\">\n            <label for=\"password\" class=\"form-label\">Mot de passe</label>\n            <input type=\"password\" id=\"password\" name=\"password\" class=\"form-control\" required>\n        </div>\n        <div class=\"mb-3\">\n            <label for=\"confirm_password\" class=\"form-label\">Confirmer le mot de passe</label>\n            <input type=\"password\" id=\"confirm_password\" name=\"confirm_password\" class=\"form-control\" required>\n        </div>\n        <button type=\"submit\" class=\"btn btn-primary w-100\">Créer un compte</button>\n        <p class=\"mt-3 text-center\">Déjà inscrit ? <a href=\"/connexion\">Se connecter</a></p>\n    </form>\n</body>\n</html>\n"
+            }
+        }
+    },
+    "pages\\error": {
+        "dirs": [],
+        "files": {
+            "404.php": {
+                "size": 277,
+                "content": "<?php\nhttp_response_code(404);\n$title = 'Page non trouvée';\nob_start();\n?>\n<h1>404</h1>\n<p>La page que vous cherchez n'existe pas.</p>\n<a href=\"/\" class=\"btn btn-primary\">Retour à l'accueil</a>\n<?php\n$content = ob_get_clean();\ninclude 'components/layout.php';\n?>\n"
+            },
+            "500.php": {
+                "size": 247,
+                "content": "<?php\nhttp_response_code(500);\n$title = 'Erreur Server';\nob_start();\n?>\n<h1>500</h1>\n<p>Erreur Server</p>\n<a href=\"/\" class=\"btn btn-primary\">Retour à l'accueil</a>\n<?php\n$content = ob_get_clean();\ninclude 'components/layout.php';\n?>\n"
+            }
+        }
+    },
+    "pages\\playlists": {
+        "dirs": [],
+        "files": {
+            "playlist.php": {
+                "size": 1970,
+                "content": "<?php\nsession_start();\ninclude $_SERVER['DOCUMENT_ROOT'] . '/lib/playlists.php';\n\n// Récupérer l'ID de la Playlist\n$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;\n$playlist = array_filter($playlists, fn($p) => $p['id'] === $id);\n$playlist = reset($playlist); // Récupère le premier élément\n\nif (!$playlist) {\n    header('Location: /pages/playlists.php');\n    exit;\n}\n\n$title = $playlist['title'];\nob_start();\n?>\n<div class=\"container mt-5\">\n    <h1><?php echo htmlspecialchars($playlist['title']); ?></h1>\n    <p><?php echo count($playlist['songs']); ?> chansons</p>\n\n    <!-- Liste des Chansons -->\n    <ul class=\"list-group\">\n        <?php foreach ($playlist['songs'] as $song): ?>\n            <li class=\"list-group-item d-flex justify-content-between align-items-center\">\n                <?php echo htmlspecialchars($song['title']) . ' - ' . htmlspecialchars($song['artist']); ?>\n                <a href=\"#\" class=\"btn btn-danger btn-sm\">Supprimer</a>\n            </li>\n        <?php endforeach; ?>\n    </ul>\n\n    <!-- Formulaire pour Ajouter une Chanson -->\n    <div class=\"mt-4\">\n        <h3>Ajouter une Chanson</h3>\n        <form method=\"POST\" action=\"/pages/song_add.php\">\n            <input type=\"hidden\" name=\"playlist_id\" value=\"<?php echo $playlist['id']; ?>\">\n            <div class=\"mb-3\">\n                <label for=\"song-title\" class=\"form-label\">Titre</label>\n                <input type=\"text\" id=\"song-title\" name=\"title\" class=\"form-control\" required>\n            </div>\n            <div class=\"mb-3\">\n                <label for=\"artist\" class=\"form-label\">Artiste</label>\n                <input type=\"text\" id=\"artist\" name=\"artist\" class=\"form-control\" required>\n            </div>\n            <button type=\"submit\" class=\"btn btn-primary\">Ajouter</button>\n        </form>\n    </div>\n</div>\n<?php\n$content = ob_get_clean();\ninclude $_SERVER['DOCUMENT_ROOT'] . '/components/layout.php';\n?>\n"
+            },
+            "playlists.php": {
+                "size": 1562,
+                "content": "<?php\n$title = 'Playlists';\ninclude $_SERVER['DOCUMENT_ROOT'] . '/lib/playlists.php';\nob_start();\n?>\n<div class=\"container mt-5\">\n    <h1>Mes Playlists</h1>\n    <p>Gérez vos playlists et ajoutez vos chansons préférées.</p>\n\n    <!-- Liste des Playlists -->\n    <div class=\"row\">\n        <?php foreach ($playlists as $playlist): ?>\n            <div class=\"col-md-6\">\n                <div class=\"card mb-3 bg-dark text-white\">\n                    <div class=\"card-body\">\n                        <h5 class=\"card-title\"><?php echo htmlspecialchars($playlist['title']); ?></h5>\n                        <p class=\"card-text\"><?php echo count($playlist['songs']); ?> chansons</p>\n                        <a href=\"/pages/playlist.php?id=<?php echo $playlist['id']; ?>\" class=\"btn btn-light\">Voir Playlist</a>\n                    </div>\n                </div>\n            </div>\n        <?php endforeach; ?>\n    </div>\n\n    <!-- Formulaire pour Ajouter une Playlist -->\n    <div class=\"mt-5\">\n        <h3>Créer une Nouvelle Playlist</h3>\n        <form method=\"POST\" action=\"/pages/playlist_add.php\">\n            <div class=\"mb-3\">\n                <label for=\"title\" class=\"form-label\">Nom de la Playlist</label>\n                <input type=\"text\" id=\"title\" name=\"title\" class=\"form-control\" required>\n            </div>\n            <button type=\"submit\" class=\"btn btn-primary\">Créer</button>\n        </form>\n    </div>\n</div>\n<?php\n$content = ob_get_clean();\ninclude $_SERVER['DOCUMENT_ROOT'] . '/components/layout.php';\n?>\n"
+            },
+            "playlist_add.php": {
+                "size": 428,
+                "content": "<?php\nsession_start();\nif ($_SERVER['REQUEST_METHOD'] === 'POST') {\n    $title = trim($_POST['title']);\n    if (!empty($title)) {\n        // Simuler l'ajout dans les données existantes\n        $_SESSION['playlists'][] = [\n            'id' => count($_SESSION['playlists'] ?? []) + 1,\n            'title' => $title,\n            'songs' => [],\n        ];\n    }\n}\nheader('Location: /pages/playlists.php');\nexit;\n?>\n"
+            }
+        }
+    },
+    "pages\\user": {
+        "dirs": [],
+        "files": {
+            "dashboard.php": {
+                "size": 665,
+                "content": "<?php\n$title = 'Dashboard';\nsession_start();\n\nif (!isset($_SESSION['user'])) {\n    header('Location: /');\n    exit;\n}\n\n\nob_start();\n?>\n<div class=\"container mt-5\">\n    <h1>Dashboard</h1>\n    <p>Welcome to your dashboard.</p>\n    <p>Here you can manage your playlists, songs and artists.</p>\n    <p>What would you like to do?</p>\n    <ul>\n        <li><a href=\"/pages/library.php\">Access your library</a></li>\n        <li><a href=\"/pages/search.php\">Search for songs and artists</a></li>\n        <li><a href=\"/pages/auth/deconnexion.php\">Logout</a></li>\n    </ul>\n</div>\n<?php\n$content = ob_get_clean();\ninclude 'components/layout.php';\n?>\n"
+            }
+        }
+    },
+    "public": {
+        "dirs": [
+            "css",
+            "js"
+        ],
+        "files": {}
+    },
+    "public\\css": {
+        "dirs": [],
+        "files": {
+            "global.css": {
+                "size": 592,
+                "content": "body {\n    font-family: Arial, sans-serif;\n    margin: 0;\n    padding: 0;\n    background-color: #f8f9fa;\n}\n\n.sidebar {\n    width: 250px;\n    min-height: 100vh;\n}\n\n.music-player {\n    position: fixed;\n    bottom: 0;\n    width: 100%;\n    height: 70px;\n    border-top: 1px solid #444;\n    display: flex;\n    justify-content: space-between;\n    z-index: 1000;\n}\n\n.album-cover {\n    border-radius: 5px;\n    object-fit: cover;\n}\n\n.player-controls button {\n    font-size: 18px;\n}\n\n#track-title {\n    font-weight: bold;\n}\n\n#artist-name {\n    font-size: 12px;\n}\n"
+            }
+        }
+    },
+    "public\\js": {
+        "dirs": [],
+        "files": {
+            "player.js": {
+                "size": 3093,
+                "content": "const audioPlayer = document.getElementById('audio-player');\nconst playPauseBtn = document.getElementById('play-pause-btn');\nconst playIcon = document.getElementById('play-icon');\nconst prevBtn = document.getElementById('prev-btn');\nconst nextBtn = document.getElementById('next-btn');\nconst trackTitle = document.getElementById('track-title');\nconst artistName = document.getElementById('artist-name');\n\n// Example track list\nconst tracks = [\n    { src: 'https://vtippiwsuhcvidotouio.supabase.co/storage/v1/object/public/music/360TrickShot%20-%20A%20COLORS%20SHOW.mp3', title: '360 TrickShot', artist: 'Jolagreen123' },\n    { src: '/public/music/song2.mp3', title: 'Chanson 2', artist: 'Artiste 2' },\n    { src: '/public/music/song3.mp3', title: 'Chanson 3', artist: 'Artiste 3' },\n];\n\nlet currentTrackIndex = 0;\n\n// Load a track\nfunction loadTrack(index) {\n    const track = tracks[index];\n    audioPlayer.src = track.src;\n    trackTitle.textContent = track.title;\n    artistName.textContent = track.artist;\n    audioPlayer.load();\n    savePlayerState();\n}\n\n// Save the current state of the player\nfunction savePlayerState() {\n    const playerState = {\n        currentTrackIndex,\n        currentTime: audioPlayer.currentTime,\n        isPlaying: !audioPlayer.paused,\n    };\n    localStorage.setItem('playerState', JSON.stringify(playerState));\n}\n\n// Restore the saved state of the player\nfunction restorePlayerState() {\n    const savedState = localStorage.getItem('playerState');\n    if (savedState) {\n        const { currentTrackIndex: savedIndex, currentTime, isPlaying } = JSON.parse(savedState);\n        currentTrackIndex = savedIndex || 0;\n        loadTrack(currentTrackIndex);\n        audioPlayer.currentTime = currentTime || 0;\n        if (isPlaying) {\n            audioPlayer.play();\n            playIcon.className = 'bi bi-pause-fill';\n        }\n    } else {\n        loadTrack(currentTrackIndex); // Default to the first track\n    }\n}\n\n// Play or Pause\nplayPauseBtn.addEventListener('click', () => {\n    if (audioPlayer.paused) {\n        audioPlayer.play();\n        playIcon.className = 'bi bi-pause-fill';\n    } else {\n        audioPlayer.pause();\n        playIcon.className = 'bi bi-play-fill';\n    }\n    savePlayerState();\n});\n\n// Next Track\nnextBtn.addEventListener('click', () => {\n    currentTrackIndex = (currentTrackIndex + 1) % tracks.length;\n    loadTrack(currentTrackIndex);\n    audioPlayer.play();\n    playIcon.className = 'bi bi-pause-fill';\n    savePlayerState();\n});\n\n// Previous Track\nprevBtn.addEventListener('click', () => {\n    currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;\n    loadTrack(currentTrackIndex);\n    audioPlayer.play();\n    playIcon.className = 'bi bi-pause-fill';\n    savePlayerState();\n});\n\n// Update state when audio ends\naudioPlayer.addEventListener('ended', () => {\n    nextBtn.click();\n});\n\n// Save state when time updates\naudioPlayer.addEventListener('timeupdate', savePlayerState);\n\n// Initialize\nrestorePlayerState();\n"
+            }
+        }
+    },
+    "utils": {
+        "dirs": [],
+        "files": {
+            "database.php": {
+                "size": 353,
+                "content": "<?php\n\n$localhost = 'localhost';\n$dbname = 'hira_bdd';\n$user = 'root';\n$password = 'root';\n\ntry {\n    $pdo = new PDO(\"mysql:host=$localhost;dbname=$dbname\", $user, $password);\n    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);\n} catch (PDOException $e) {\n    echo 'Erreur de connexion : ' . $e->getMessage();\n    exit;\n}\n\n"
+            }
+        }
+    }
+}

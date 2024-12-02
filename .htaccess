@@ -1,0 +1,11 @@
+# Active le moteur de réécriture d'URL
+RewriteEngine On
+
+# Redirige tout sauf les fichiers ou dossiers existants vers index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /index.php [L]
+
+# Gestion des erreurs
+ErrorDocument 404 /pages/error/404.php
+ErrorDocument 500 /pages/error/500.php
