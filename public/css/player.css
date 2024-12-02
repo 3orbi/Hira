@@ -8,6 +8,8 @@ body {
     font-family: 'Ubuntu', sans-serif;
     background-color: #121212;
     color: #fff;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .player-header {
@@ -33,6 +35,12 @@ body {
     margin-right: 20px;
     overflow: hidden;
     border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.cover-container:hover {
+    transform: scale(1.05);
 }
 
 .cover-container img {
@@ -51,7 +59,7 @@ body {
     font-size: 20px;
     color: #fff;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: color 0.3s ease;
 }
 
 .player-controls i:hover {
@@ -69,6 +77,7 @@ body {
     border-radius: 5px;
     position: relative;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .progress-bar {
@@ -164,4 +173,268 @@ body {
 
 .volume-control input[type="range"]::-moz-range-track {
     background: linear-gradient(to right, #e50914 0%, #e50914 var(--volume-level), #fff var(--volume-level), #fff 100%);
+}
+
+
+.fullscreen-player {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #121212;
+    overflow: hidden;
+}
+
+.fullscreen-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+.close-fullscreen {
+    color: #fff;
+    font-size: 30px;
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    cursor: pointer;
+    z-index: 1002;
+    transition: color 0.3s ease;
+}
+
+.close-fullscreen:hover,
+.close-fullscreen:focus {
+    color: #e50914;
+}
+
+.player-fullscreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+}
+
+.player-fullscreen img {
+    width: 60%;
+    max-width: 400px;
+    border-radius: 15px;
+    margin-bottom: 40px;
+    transition: transform 0.5s linear;
+   
+    animation: rotateCover 10s linear infinite;
+    animation-play-state: paused;
+}
+
+
+.player-fullscreen.playing img {
+    animation-play-state: running;
+}
+
+@keyframes rotateCover {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.player-fullscreen .player-controls {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.player-fullscreen .player-controls i {
+    font-size: 40px;
+    color: #fff;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.player-fullscreen .player-controls i:hover {
+    color: #e50914;
+}
+
+.fullscreen-progress-container {
+    width: 100%;
+    height: 10px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.fullscreen-progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: #e50914;
+    transition: width 0.1s linear;
+}
+
+.player-fullscreen .time-display {
+    font-size: 16px;
+    color: #ccc;
+    margin-bottom: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.player-fullscreen .volume-control {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.player-fullscreen .volume-control i {
+    font-size: 25px;
+    color: #fff;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.player-fullscreen .volume-control i:hover {
+    color: #e50914;
+}
+
+.player-fullscreen .volume-control input[type="range"] {
+    width: 150px;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+}
+
+.player-fullscreen .volume-control input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 8px;
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.player-fullscreen .volume-control input[type="range"]::-moz-range-track {
+    width: 100%;
+    height: 8px;
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.player-fullscreen .volume-control input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 16px;
+    width: 16px;
+    background: #e50914;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -4px;
+}
+
+.player-fullscreen .volume-control input[type="range"]::-moz-range-thumb {
+    height: 16px;
+    width: 16px;
+    background: #e50914;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.player-fullscreen .volume-control input[type="range"]::-ms-thumb {
+    height: 16px;
+    width: 16px;
+    background: #e50914;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.player-fullscreen .volume-control input[type="range"]:focus {
+    outline: none;
+}
+
+.player-fullscreen .volume-control input[type="range"]::-webkit-slider-runnable-track {
+    background: linear-gradient(to right, #e50914 0%, #e50914 var(--volume-level), #fff var(--volume-level), #fff 100%);
+}
+
+.player-fullscreen .volume-control input[type="range"]::-moz-range-track {
+    background: linear-gradient(to right, #e50914 0%, #e50914 var(--volume-level), #fff var(--volume-level), #fff 100%);
+}
+
+
+.fullscreen-player {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+
+@media (max-width: 768px) {
+    .player-header {
+        left: 0;
+        width: 100%;
+        height: 60px;
+    }
+
+    .cover-container {
+        width: 40px;
+        height: 40px;
+        margin-right: 15px;
+    }
+
+    .player-controls i {
+        font-size: 18px;
+        gap: 15px;
+    }
+
+    .time-display {
+        font-size: 10px;
+        margin-left: 15px;
+    }
+
+    .volume-control input[type="range"] {
+        width: 80px;
+    }
+
+    .player-fullscreen img {
+        width: 70%;
+        max-width: 300px;
+        margin-bottom: 30px;
+    }
+
+    .player-fullscreen .player-controls i {
+        font-size: 35px;
+        gap: 20px;
+    }
+
+    .player-fullscreen .time-display {
+        font-size: 14px;
+        padding: 0 5px;
+    }
+
+    .player-fullscreen .volume-control i {
+        font-size: 20px;
+    }
+
+    .player-fullscreen .volume-control input[type="range"] {
+        width: 100px;
+    }
 }
