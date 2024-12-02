@@ -8,7 +8,6 @@ $localhost = 'hira.ovh:3306';
     try {
         $pdo = new PDO("mysql:host=$localhost;dbname=$dbname", $user, $passwordDb);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        echo 'Connexion réussie';
     } catch (PDOException $e) {
         echo 'Erreur de connexion : ' . $e->getMessage();
         exit;

@@ -5,6 +5,7 @@ $title = 'Recherche';
 ob_start();
 session_start();
 
+require 'components/database.php';
 
 try {
     $pdo = new PDO("mysql:host=$localhost;dbname=$dbname", $user, $passwordDb);

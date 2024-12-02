@@ -1,6 +1,8 @@
 <?php
 $title = 'Dashboard Admin';
 
+require 'components/database.php';
+
 session_start();
 ob_start();
 

@@ -23,7 +23,6 @@ $routes = [
     "album" => 'pages/album.php',
     "artist" => 'pages/artist.php',
 
-    '/lib/database' => 'lib/database.php',
 
     'user/dashboard' => 'pages/user/dashboard.php',
 
