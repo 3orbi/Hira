@@ -12,9 +12,9 @@ body {
 
 .player-header {
     position: fixed;
-    top: 0;
-    left: 300px;
-    width: calc(100% - 300px);
+    bottom: 0;
+    left: 250px;
+    width: calc(100% - 250px);
     background-color: rgba(28, 28, 28, 0.9);
     height: 70px;
     display: flex;
