@@ -54,6 +54,10 @@ $stmt = $pdo->query('
 ');
 $topChansons = $stmt->fetchAll();
 
+//Liste des Utilisateurs
+$stmt = $pdo->query('SELECT * FROM utilisateurs');
+$utilisateurs = $stmt->fetchAll();
+
 // Dernières actions (pages visitées)
 $stmt = $pdo->query('
     SELECT u.nom, u.email, hp.url, hp.date_visite
@@ -129,6 +133,33 @@ $dernieresActions = $stmt->fetchAll();
             </li>
         <?php endforeach; ?>
     </ul>
+
+    <!-- Liste des utilisateurs -->
+    <h3 class="mt-5">Liste des utilisateurs</h3>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($utilisateurs as $utilisateur): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($utilisateur['nom']); ?></td>
+                        <td><?php echo htmlspecialchars($utilisateur['email']); ?></td>
+                        <td><?php echo htmlspecialchars($utilisateur['role']); ?></td>
+                        <td>
+                            <a href="/admin/supprimer-utilisateur?id=<?php echo htmlspecialchars($utilisateur['id']); ?>" class="btn btn-danger">Supprimer</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 

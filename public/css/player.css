@@ -1,16 +1,6 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
-body {
-    font-family: 'Ubuntu', sans-serif;
-    background-color: #121212;
-    color: #fff;
-    height: 100vh;
-    overflow: hidden;
-}
+
+
 
 .player-header {
     position: fixed;

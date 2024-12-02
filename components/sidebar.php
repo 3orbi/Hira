@@ -16,8 +16,7 @@ global $currentPage;
 <div class="sidebar">
 
     <div class="sidebar-header">
-        <i class="icon icon-music"></i>
-        <span class="title">Hira</span>
+        <img src="/public/logo.svg" alt="Hira Logo" class="logo">
     </div>
 
 
@@ -73,14 +72,14 @@ global $currentPage;
             </li>
 
             <li class="menu-item">
-                <a href="#artists" class="menu-link <?php echo $currentPage === 'artists' ? 'active' : ''; ?>">
+                <a href="/artists" class="menu-link <?php echo $currentPage === 'artists' ? 'active' : ''; ?>">
                     <i class="icon icon-mic"></i>
                     Artistes
                 </a>
             </li>
 
             <li class="menu-item">
-                <a href="#playlists" class="menu-link <?php echo $currentPage === 'playlists' ? 'active' : ''; ?>">
+                <a href="/playlists" class="menu-link <?php echo $currentPage === 'playlists' ? 'active' : ''; ?>">
                     <i class="icon icon-playlist"></i>
                     Playlists
                 </a>
