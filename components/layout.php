@@ -19,6 +19,7 @@
 </head>
 <body>
     <div class="d-flex" id="content">
+        <?php require 'components/database.php'; ?>
         <?php include 'components/sidebar.php'; ?>
         <main class="main flex-grow-1">
             <?php echo $content ?? ''; ?>

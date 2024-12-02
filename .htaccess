@@ -1,5 +1,5 @@
 # Active le moteur de réécriture d'URL
-RewriteEngine On
+RewriteEngine Off
 
 # Redirige tout sauf les fichiers ou dossiers existants vers index.php
 RewriteCond %{REQUEST_FILENAME} !-f
