@@ -19,8 +19,11 @@ $routes = [
     'connexion' => 'pages/auth/connexion.php',
     'deconnexion' => 'pages/auth/deconnexion.php',
     "inscription" => 'pages/auth/inscription.php',
+    'verifie' => 'pages/auth/verifie.php',
+    'attente' => 'pages/auth/attente.php',
 
-    "album" => 'pages/album.php',
+    "albums" => 'pages/album/albums.php',
+    "album" => 'pages/album/album.php',
     "artists" => 'pages/artists/artists.php',
     "artist" => 'pages/artists/artist.php',
 

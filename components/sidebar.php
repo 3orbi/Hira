@@ -48,13 +48,6 @@ global $currentPage;
                     Rechercher
                 </a>
             </li>
-            <li class="menu-item">
-                <a href="/for-you"
-                   class="menu-link <?php echo $currentPage === 'for-you' ? 'active' : ''; ?>">
-                    <i class="icon icon-user"></i>
-                    Pour Vous
-                </a>
-            </li>
         </ul>
     </div>
 
@@ -98,25 +91,7 @@ global $currentPage;
                     Derniers Ajouts
                 </a>
             </li>
-            <li class="menu-item">
-                <a href="#recently-played"
-                   class="menu-link <?php echo $currentPage === 'recently-played' ? 'active' : ''; ?>">
-                    <i class="icon icon-play-circle"></i>
-                    Recently Played
-                </a>
-            </li>
-            <li class="menu-item">
-                <a href="#top-songs" class="menu-link <?php echo $currentPage === 'top-songs' ? 'active' : ''; ?>">
-                    <i class="icon icon-heart"></i>
-                    Top Songs
-                </a>
-            </li>
-            <li class="menu-item">
-                <a href="#top-albums" class="menu-link <?php echo $currentPage === 'top-albums' ? 'active' : ''; ?>">
-                    <i class="icon icon-chart"></i>
-                    Top Albums
-                </a>
-            </li>
+
         </ul>
 
         <!-- Authentication Section -->
