@@ -1,12 +1,14 @@
 <?php
 session_start();
+require 'components/database.php';
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
 
     // Connexion à la base de données
-    require 'components/database.php';
+    
 
     // Vérifier l'utilisateur dans la base
     $stmt = $pdo->prepare('SELECT * FROM utilisateurs WHERE email = :email');

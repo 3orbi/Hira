@@ -6,12 +6,13 @@ ob_start();
 
 // Vérifier si l'utilisateur est administrateur
 if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'administrateur') {
-    header('Location: /connexion.php');
+    header('Location: /connexion');
     exit;
 }
 
 // Connexion à la base de données
-require 'components/database.php';
+
+
 
 // Statistiques globales
 $statistiques = [

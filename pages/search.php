@@ -5,11 +5,6 @@ $title = 'Recherche';
 ob_start();
 session_start();
 
-// Connexion à la base de données
-$localhost = 'localhost';
-$dbname = 'hira_bdd';
-$user = 'root';
-$passwordDb = 'root';
 
 try {
     $pdo = new PDO("mysql:host=$localhost;dbname=$dbname", $user, $passwordDb);
