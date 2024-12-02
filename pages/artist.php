@@ -11,19 +11,7 @@ if (!isset($_SESSION['user'])) {
     exit;
 }
 
-// Connexion à la base de données
-$localhost = 'localhost';
-$dbname = 'hira_bdd';
-$user = 'root';
-$passwordDb = 'root';
-
-try {
-    $pdo = new PDO("mysql:host=$localhost;dbname=$dbname", $user, $passwordDb);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    echo 'Erreur de connexion : ' . $e->getMessage();
-    exit;
-}
+require 'components/database.php';
 
 // Récupérer l'ID de l'artiste depuis l'URL
 $artisteId = $_GET['id'] ?? null;
