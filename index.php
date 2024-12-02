@@ -21,7 +21,10 @@ $routes = [
     "inscription" => 'pages/auth/inscription.php',
 
     "album" => 'pages/album.php',
-    "artist" => 'pages/artist.php',
+    "artists" => 'pages/artists/artists.php',
+    "artist" => 'pages/artists/artist.php',
+
+    "recent" => 'pages/recent.php',
 
 
     'user/dashboard' => 'pages/user/dashboard.php',

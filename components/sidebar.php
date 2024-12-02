@@ -92,10 +92,10 @@ global $currentPage;
         <h6 class="section-title">Playlists</h6>
         <ul class="menu">
             <li class="menu-item">
-                <a href="#recently-added"
+                <a href="/recent"
                    class="menu-link <?php echo $currentPage === 'recently-added' ? 'active' : ''; ?>">
                     <i class="icon icon-clock"></i>
-                    Recently Added
+                    Derniers Ajouts
                 </a>
             </li>
             <li class="menu-item">
@@ -127,7 +127,7 @@ global $currentPage;
             if (isset($_SESSION['user'])){
                 echo '
                     <li class="menu-item">
-                        <a href="/dashboard" class="menu-link">
+                        <a href="/user/dashboard" class="menu-link">
                             <i class="icon icon-user"></i>
                             Dashboard
                         </a>
