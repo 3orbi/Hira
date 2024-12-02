@@ -69,7 +69,7 @@ session_start();
         <div class="d-flex flex-wrap justify-content-start mt-4">
         <?php 
         $stmt = $pdo->query("
-            SELECT c.id, c.titre, c.url_fichier, c.cree_le, a.nom AS artiste
+            SELECT c.id, c.titre, c.url_fichier, c.cree_le, a.nom AS artiste, c.img_url
             FROM chansons c
             JOIN artistes a ON c.artiste_id = a.id
             ORDER BY c.cree_le DESC
@@ -78,12 +78,13 @@ session_start();
         $latestSongs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $songs = [];
+        $defaultImageUrl = 'public/img/default-song.jpg';
         foreach ($latestSongs as $song) {
             $songs[] = [
                 'src' => htmlspecialchars($song['url_fichier']),
                 'title' => htmlspecialchars($song['titre']),
                 'artist' => htmlspecialchars($song['artiste']),
-                'cover' => 'public/img/default-song.jpg'
+                'cover' => htmlspecialchars($song['img_url'] ?? $defaultImageUrl),
             ];
         }
         ?>
@@ -91,7 +92,7 @@ session_start();
         <!-- Génération des cartes -->
         <?php foreach ($latestSongs as $index => $song): ?>
             <div class="card bg-dark text-white m-2 position-relative" style="width: 15rem; border-radius: 10px; overflow: hidden;">
-                <img src="public/img/default-song.jpg" class="card-img-top" alt="<?= htmlspecialchars($song['titre']); ?>" style="height: 12rem; object-fit: cover;">
+                <img src="<?= htmlspecialchars($song['img_url']); ?>" class="card-img-top" alt="<?= htmlspecialchars($song['titre']); ?>" style="height: 12rem; object-fit: cover;">
                 <div class="card-body">
                     <h5 class="card-title"><?= htmlspecialchars($song['titre']); ?></h5>
                     <p class="card-text"><?= htmlspecialchars($song['artiste']); ?></p>
