@@ -35,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $albumId = empty($_POST['album_id']) ? null : $_POST['album_id'];
     $duree = trim($_POST['duree']);
     $urlFichier = trim($_POST['url_fichier']);
+    $img_url = trim($_POST['img_url']);
 
     // Validation des champs obligatoires
     if (empty($titre) || empty($artisteNom) || empty($genreNom) || empty($duree) || empty($urlFichier)) {
@@ -77,8 +78,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Ajouter la chanson dans la base de données
             $stmt = $pdo->prepare('
-                INSERT INTO chansons (titre, artiste_id, album_id, genre_id, duree, cree_le)
-                VALUES (:titre, :artiste_id, :album_id, :genre_id, :duree, NOW())
+                INSERT INTO chansons (titre, artiste_id, album_id, genre_id, duree, cree_le, url_fichier, img_url)
+                VALUES (:titre, :artiste_id, :album_id, :genre_id, :duree, NOW(), :url_fichier, :img_url)
             ');
             $stmt->execute([
                 'titre' => $titre,
@@ -86,6 +87,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'album_id' => $albumId,
                 'genre_id' => $genreId,
                 'duree' => $duree,
+                'url_fichier' => $urlFichier,
+                'img_url' => $img_url,
             ]);
 
             $pdo->commit();
@@ -101,7 +104,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $albums = $pdo->query('SELECT id, titre FROM albums ORDER BY titre ASC')->fetchAll();
 ?>
 
-<div class="container mt-5 mb-4">
+<head>
+    <style>
+        .py-16 {
+            padding-bottom: 4rem;
+        }
+    </style>
+</head>
+
+<div class="py-16 container mt-5 mb-4">
     <h1>Ajouter une Chanson</h1>
 
     <?php if (!empty($error)): ?>
@@ -144,6 +155,11 @@ $albums = $pdo->query('SELECT id, titre FROM albums ORDER BY titre ASC')->fetchA
             <label for="url_fichier" class="form-label">URL du Fichier (Supabase)</label>
             <input type="url" id="url_fichier" name="url_fichier" class="form-control" required>
         </div>
+        <div class="mb-3">
+            <label for="url_cover" class="form-label">URL de la Cover (Supabase)</label>
+            <input type="url" id="img_url" name="img_url" class="form-control">
+        </div>
+        
         <button type="submit" class="btn btn-primary">Ajouter</button>
     </form>
     <div class='m-4'>
@@ -191,5 +207,5 @@ $albums = $pdo->query('SELECT id, titre FROM albums ORDER BY titre ASC')->fetchA
 
 <?php
 $content = ob_get_clean();
-include 'components/layout.php';
+include 'components/layout_sans_player.php';
 ?>

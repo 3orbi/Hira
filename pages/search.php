@@ -75,11 +75,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET['q'])) {
 function getResultLink($type, $id) {
     switch ($type) {
         case 'artiste':
-            return "/artist.php?id=$id";
+            return "/artist?id=$id";
         case 'album':
-            return "/album.php?id=$id";
+            return "/album?id=$id";
         case 'chanson':
-            return "/song.php?id=$id"; // Page de chanson (à créer)
+            return "/song?id=$id"; // Page de chanson (à créer)
         default:
             return '#';
     }
