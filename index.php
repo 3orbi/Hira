@@ -25,6 +25,7 @@ $routes = [
 
 
     'user/dashboard' => 'pages/user/dashboard.php',
+    'user/creation' => 'pages/user/creation-user.php',
 
     'admin' => 'pages/admin/dashboard.php',
 ];

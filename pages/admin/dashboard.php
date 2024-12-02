@@ -152,6 +152,44 @@ $dernieresActions = $stmt->fetchAll();
             </tbody>
         </table>
     </div>
+    <script>
+    // Fonction pour envoyer les chansons à l'iframe du lecteur
+    function sendSongsToPlayer(songs) {
+        const iframe = document.getElementById('player-iframe');
+        if (iframe) {
+            iframe.onload = () => {
+                iframe.contentWindow.postMessage({ type: 'LOAD_SONGS', songs: songs }, '*');
+            };
+            if (iframe.contentWindow) {
+                iframe.contentWindow.postMessage({ type: 'LOAD_SONGS', songs: songs }, '*');
+            }
+        }
+    }
+
+    // Fonction pour jouer une chanson spécifique
+    function playSong(index) {
+        const iframe = document.getElementById('player-iframe');
+        if (iframe && iframe.contentWindow) {
+            iframe.contentWindow.postMessage({ type: 'PLAY_SONG', songIndex: index }, '*');
+        }
+    }
+
+    // Écouter les messages de l'iframe du lecteur
+    window.addEventListener('message', function(event) {
+        if (event.data.type === 'PLAYER_STATE') {
+            console.log('État du lecteur:', event.data);
+            // Vous pouvez ajouter ici du code pour mettre à jour l'interface utilisateur
+            // en fonction de l'état du lecteur si nécessaire
+        }
+    });
+
+    // Envoyer la liste des chansons à l'iframe du lecteur au chargement de la page
+    window.addEventListener('load', () => {
+        if (typeof songs !== 'undefined') {
+            sendSongsToPlayer(songs);
+        }
+    });
+</script>
 </div>
 
 
