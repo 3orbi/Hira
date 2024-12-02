@@ -72,6 +72,40 @@ ob_start();
     
     <!-- Le reste du contenu du tableau de bord reste inchangé -->
 
+    <div class="bg-white p-4 rounded shadow">
+            <h2 class="text-xl font-bold mb-4">Profil</h2>
+            <p><strong>Nom:</strong> <?php echo htmlspecialchars($user['nom']); ?></p>
+            <p><strong>Email:</strong> <?php echo htmlspecialchars($user['email']); ?></p>
+            <p><strong>Rôle:</strong> <?php echo htmlspecialchars($user['role']); ?></p>
+        </div>
+
+        <div class="bg-white p-4 rounded shadow">
+            <h2 class="text-xl font-bold mb-4">Statistiques</h2>
+            <p><strong>Total d'écoutes:</strong> <?php echo $total_listens; ?></p>
+            <p><strong>Chansons uniques écoutées:</strong> <?php echo $unique_songs; ?></p>
+        </div>
+
+        <div class="bg-white p-4 rounded shadow">
+            <h2 class="text-xl font-bold mb-4">Mes Playlists</h2>
+            <ul>
+                <?php foreach ($playlists as $playlist): ?>
+                    <li><?php echo htmlspecialchars($playlist['titre']); ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+
+        <div class="bg-white p-4 rounded shadow md:col-span-2 lg:col-span-3">
+            <h2 class="text-xl font-bold mb-4">Écoutés récemment</h2>
+            <ul>
+                <?php foreach ($recent_plays as $play): ?>
+                    <li>
+                        <strong><?php echo htmlspecialchars($play['titre']); ?></strong> 
+                        par <?php echo htmlspecialchars($play['artiste']); ?> 
+                        (<?php echo date('d/m/Y H:i', strtotime($play['date_lecture'])); ?>)
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
     <div class="bg-white p-4 rounded shadow md:col-span-2 lg:col-span-3 mt-6">
         <h2 class="text-xl font-bold mb-4">Modifier mes informations</h2>
         <form action="" method="POST" class="space-y-4">
