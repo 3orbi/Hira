@@ -12,18 +12,8 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'administrateur')
 }
 
 // Connexion à la base de données
-$localhost = 'localhost';
-$dbname = 'hira_bdd';
-$user = 'root';
-$passwordDb = 'root';
+require 'components/database.php';
 
-try {
-    $pdo = new PDO("mysql:host=$localhost;dbname=$dbname", $user, $passwordDb);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    echo 'Erreur de connexion : ' . $e->getMessage();
-    exit;
-}
 
 $error = '';
 $success = '';
